@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.geoquiz.R.string"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.geoquiz.R.layout"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.geoquiz.R.id"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="java.util.UUID"/>
+<fullyQualifiedTypeName name="android.app.Fragment"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="android.widget.CompoundButton.OnCheckedChangeListener"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.criminalintent.R.layout"/>
+<fullyQualifiedTypeName name="android.app.FragmentManager"/>
+<fullyQualifiedTypeName name="android.support.v4.app.FragmentManager"/>
+<fullyQualifiedTypeName name="android.R.layout"/>
+<fullyQualifiedTypeName name="android.text.format.DateFormat"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.criminalintent.R.menu"/>
+<fullyQualifiedTypeName name="android.os.Build"/>
+<fullyQualifiedTypeName name="android.os.Build.VERSION"/>
+<fullyQualifiedTypeName name="android.os.Build.VERSION_CODES"/>
+<fullyQualifiedTypeName name="android.view.MenuItem"/>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="android.R.id"/>
+<fullyQualifiedTypeName name="android.support.v4.app.NavUtils"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.criminalintent.R.id"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.criminalintent.R.string"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="android.support.v4.app.Fragment"/>
+<fullyQualifiedTypeName name="com.bignerdranch.android.photogallery.R.layout"/>
+<fullyQualifiedTypeName name="android.view.LayoutInflater"/>
+</qualifiedTypeNameHistroy>
