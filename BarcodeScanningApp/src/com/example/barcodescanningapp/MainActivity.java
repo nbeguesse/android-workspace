@@ -1,6 +1,6 @@
 package com.example.barcodescanningapp;
 
-import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.dm.zbar.android.scanner.ZBarConstants;
 import com.dm.zbar.android.scanner.ZBarScannerActivity;
 import android.text.TextUtils;
@@ -20,17 +17,20 @@ import android.text.TextUtils;
 public class MainActivity extends Activity implements OnClickListener {
 	private static final int ZBAR_SCANNER_REQUEST = 0;
 	private static final int ZBAR_QR_SCANNER_REQUEST = 1;
-	private Button scanBtn;
-	private TextView formatTxt, contentTxt;
+
+	private Button mLoginButton;
+	private User mUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		scanBtn = (Button)findViewById(R.id.scan_button);
-		formatTxt = (TextView)findViewById(R.id.scan_format);
-		contentTxt = (TextView)findViewById(R.id.scan_content);
-		scanBtn.setOnClickListener(this);
+		mUser = User.get(getApplicationContext());
+		mLoginButton = (Button)findViewById(R.id.login_button);
+		findViewById(R.id.scan_button).setOnClickListener(this);
+		mLoginButton.setOnClickListener(this);
+		refreshView();
+
 	}
 
 	@Override
@@ -43,34 +43,23 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v){
 		if(v.getId()==R.id.scan_button){
 			//scan
-			//ZXING LIBRARY
-//			IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-//			ArrayList<String> coll = new ArrayList<String>();
-//			coll.add("CODE_39");
-//			scanIntegrator.initiateScan(coll);
 			//ZBAR LIBRARY
 			Intent intent = new Intent(this, ZBarScannerActivity.class);
 			startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
+		} else if (v.getId()==R.id.login_button) {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+
 		}
 	}
 	
-//	public void onActivityResult(int requestCode, int resultCode, Intent intent) { //for ZXING
-//		//retrieve scan result
-//		IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-//		if (scanningResult != null) {
-//			//we have a result
-//			String scanContent = scanningResult.getContents();
-//			String scanFormat = scanningResult.getFormatName();
-//			formatTxt.setText("FORMAT: " + scanFormat);
-//			contentTxt.setText("CONTENT: " + scanContent);
-//			
-//		} else {
-//		    Toast toast = Toast.makeText(getApplicationContext(),
-//		            "No scan data received!", Toast.LENGTH_SHORT);
-//		        toast.show();
-//		}
-//	}
+	@Override
+	public void onResume(){
+		super.onResume();
+		refreshView();
+	}
 	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -87,4 +76,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				break;
 		}
 	}
+	
+	private void refreshView(){
+		if(mUser.isLoggedIn()){
+			mLoginButton.setVisibility(View.GONE);
+		}
+	}
+
 }
