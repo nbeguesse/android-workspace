@@ -12,15 +12,14 @@ import android.util.Log;
 
 public class User {
 	private static User sUser; //Singleton stuff!
-	private Context mAppContext;
+
 	private Integer mId;
 	private String mSingleAccessToken;
-	private ArrayList<Car> cars;
+	private ArrayList<Car> mCars;
 	
 	//Singleton private constructor!
 	private User(Context appContext){
-		mAppContext = appContext;
-		cars = new ArrayList<Car>();
+		mCars = new ArrayList<Car>();
 	}
 	//Singleton public constructor!
 	public static User get(Context c){
@@ -51,12 +50,12 @@ public class User {
 					} else {
 						Car temp = new Car();
 						temp.loadFromJson(carObject);
-						cars.add(temp);
+						mCars.add(temp);
 					}
 					
 				}
 			}
-			Log.d("User", "Num cars is "+cars.size());
+			Log.d("User", "Num cars is "+mCars.size());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +66,9 @@ public class User {
 		return mId != null;
 	}
 	
-
+	public boolean hasCars(){
+		return !mCars.isEmpty();
+	}
 	public Integer getId() {
 		return mId;
 	}
@@ -83,12 +84,19 @@ public class User {
 		mSingleAccessToken = singleAccessToken;
 	}
 	public Car getCar(Integer id){
-		for (Car c : cars){
+		for (Car c : mCars){
 			if(c.getId() == id){
 				return c;
 			}
 		}
 		return null;
+	}
+	
+	public Car getCarByPosition(Integer i){
+		return mCars.get(i);
+	}
+	public ArrayList<Car> getCars() {
+		return mCars;
 	}
   
   

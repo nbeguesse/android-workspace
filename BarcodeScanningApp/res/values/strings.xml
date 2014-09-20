@@ -9,5 +9,11 @@
     <string name="login">Login</string>
     <string name="title_activity_car_show">CarShowActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_car_list">Cars</string>
+    <string name="title_car_detail">Car Detail</string>
+    <string name="my_cars">My Cars</string>
+    <string name="logout">Logout</string>
+    <string name="dummy">Placeholder</string>
+    <string name="scan_another">Scan Another VIN</string>
 
 </resources>

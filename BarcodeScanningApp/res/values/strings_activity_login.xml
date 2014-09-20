@@ -14,5 +14,6 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="action_register">Register</string>
+    <string name="login_problem">Couldn\'t login. Please try again later.</string>
 
 </resources>

@@ -265,7 +265,7 @@ public class LoginActivity extends Activity {
 			} else if (response == LOGIN_ERROR){
 				
 				//Try again if any exceptions were thrown
-				mLoginErrorMessageView.setText("Couldn't login. Please try again later.");
+				mLoginErrorMessageView.setText(R.string.login_problem);
 			} else {
 				
 				//Display whatever message we got from the server

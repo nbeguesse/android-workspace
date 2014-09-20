@@ -24,54 +24,86 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f08000e;
-        public static final int action_settings=0x7f08000d;
-        public static final int carListView=0x7f08000c;
-        public static final int email=0x7f080004;
-        public static final int login=0x7f080006;
-        public static final int login_button=0x7f08000b;
-        public static final int login_error=0x7f080003;
-        public static final int login_form=0x7f080002;
-        public static final int login_status=0x7f080000;
-        public static final int login_status_message=0x7f080001;
-        public static final int main_layout=0x7f080009;
-        public static final int password=0x7f080005;
-        public static final int register_button=0x7f080008;
-        public static final int scan_button=0x7f08000a;
-        public static final int sign_in_button=0x7f080007;
+        public static final int action_forgot_password=0x7f080012;
+        public static final int car_detail=0x7f08000f;
+        public static final int car_detail_container=0x7f080000;
+        public static final int car_list=0x7f080001;
+        public static final int email=0x7f080006;
+        public static final int fragmentContainer=0x7f080010;
+        public static final int login=0x7f080008;
+        public static final int login_button=0x7f08000d;
+        public static final int login_error=0x7f080005;
+        public static final int login_form=0x7f080004;
+        public static final int login_status=0x7f080002;
+        public static final int login_status_message=0x7f080003;
+        public static final int logout_button=0x7f080013;
+        public static final int main_layout=0x7f08000b;
+        public static final int my_cars_button=0x7f08000e;
+        public static final int password=0x7f080007;
+        public static final int register_button=0x7f08000a;
+        public static final int scan_button=0x7f08000c;
+        public static final int sign_in_button=0x7f080009;
+        public static final int webview=0x7f080011;
     }
     public static final class layout {
-        public static final int activity_login=0x7f030000;
-        public static final int activity_main=0x7f030001;
+        public static final int activity_car_detail=0x7f030000;
+        /** 
+    Layout alias to replace the single-pane version of the layout with a
+    two-pane version on Large screens.
+
+    For more on layout aliases, see:
+    http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
+    
+
+    Layout alias to replace the single-pane version of the layout with a
+    two-pane version on Large screens.
+
+    For more on layout aliases, see:
+    http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
+    
+         */
+        public static final int activity_car_list=0x7f030001;
+        public static final int activity_car_twopane=0x7f030002;
+        public static final int activity_login=0x7f030003;
+        public static final int activity_main=0x7f030004;
+        public static final int fragment_car_detail=0x7f030005;
+        public static final int fragment_holder=0x7f030006;
+        public static final int print_dialog=0x7f030007;
     }
     public static final class menu {
-        public static final int car_show=0x7f070000;
-        public static final int login=0x7f070001;
-        public static final int main=0x7f070002;
+        public static final int login=0x7f070000;
+        public static final int main=0x7f070001;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f05000d;
-        public static final int action_register=0x7f050013;
+        public static final int action_forgot_password=0x7f050013;
+        public static final int action_register=0x7f050019;
         public static final int action_settings=0x7f050001;
-        public static final int action_sign_in=0x7f05000b;
-        public static final int action_sign_in_short=0x7f05000c;
+        public static final int action_sign_in=0x7f050011;
+        public static final int action_sign_in_short=0x7f050012;
         public static final int app_name=0x7f050000;
+        public static final int dummy=0x7f05000c;
         public static final int email_address=0x7f050003;
-        public static final int error_field_required=0x7f050012;
-        public static final int error_incorrect_password=0x7f050011;
-        public static final int error_invalid_email=0x7f05000f;
-        public static final int error_invalid_password=0x7f050010;
+        public static final int error_field_required=0x7f050018;
+        public static final int error_incorrect_password=0x7f050017;
+        public static final int error_invalid_email=0x7f050015;
+        public static final int error_invalid_password=0x7f050016;
         public static final int hello_world=0x7f050007;
         public static final int login=0x7f050005;
-        public static final int login_progress_signing_in=0x7f05000e;
+        public static final int login_problem=0x7f05001a;
+        public static final int login_progress_signing_in=0x7f050014;
+        public static final int logout=0x7f05000b;
+        public static final int my_cars=0x7f05000a;
         public static final int password=0x7f050004;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f050009;
-        public static final int prompt_password=0x7f05000a;
+        public static final int prompt_email=0x7f05000f;
+        public static final int prompt_password=0x7f050010;
         public static final int scan=0x7f050002;
+        public static final int scan_another=0x7f05000d;
         public static final int title_activity_car_show=0x7f050006;
-        public static final int title_activity_login=0x7f050008;
+        public static final int title_activity_login=0x7f05000e;
+        public static final int title_car_detail=0x7f050009;
+        public static final int title_car_list=0x7f050008;
     }
     public static final class style {
         /** 

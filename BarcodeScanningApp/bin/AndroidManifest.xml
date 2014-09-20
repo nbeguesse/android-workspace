@@ -37,6 +37,18 @@
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        <activity
+            android:name="com.example.barcodescanningapp.CarListActivity"
+            android:label="@string/title_car_list" >
+        </activity>
+        <activity
+            android:name="com.example.barcodescanningapp.CarDetailActivity"
+            android:label="@string/title_car_detail"
+            android:parentActivityName=".CarListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CarListActivity" />
+        </activity>
     </application>
 
 </manifest>

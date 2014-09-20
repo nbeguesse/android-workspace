@@ -23,11 +23,12 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/login" />
 
-    <ListView
-        android:id="@+id/carListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+    <Button
+        android:id="@+id/my_cars_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/my_cars" />    
 
 </LinearLayout>
 

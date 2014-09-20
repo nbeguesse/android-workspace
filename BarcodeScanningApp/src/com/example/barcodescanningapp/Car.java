@@ -1,8 +1,14 @@
 package com.example.barcodescanningapp;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.text.TextUtils;
 
 public class Car {
 	private int mId;
@@ -53,7 +59,14 @@ public class Car {
 	}
 	
 	public String toString(){
-		return ""+this.getId();
+		List<String> list = new ArrayList<String>();
+		list.add(Integer.toString(mYear));
+		list.add(mMake);
+		list.add(mModel);
+		list.removeAll(Collections.singleton(null));
+		String out = TextUtils.join(" ", list);
+		if(TextUtils.isEmpty(out.trim())) out = "New Car";
+		return out;
 	}
 
 	public int getId() {
