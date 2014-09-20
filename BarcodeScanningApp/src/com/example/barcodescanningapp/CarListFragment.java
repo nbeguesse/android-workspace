@@ -19,6 +19,7 @@ import android.widget.ListView;
  */
 public class CarListFragment extends ListFragment {
 	private User mUser;
+	private ArrayAdapter<Car> mAdapter;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -69,8 +70,8 @@ public class CarListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mUser = User.get(getActivity());
-		ArrayAdapter<Car> adapter = new ArrayAdapter<Car>(getActivity(), android.R.layout.simple_list_item_1, mUser.getCars());
-		setListAdapter(adapter);
+		mAdapter = new ArrayAdapter<Car>(getActivity(), android.R.layout.simple_list_item_1, mUser.getCars());
+		setListAdapter(mAdapter);
 	
 
 	}
@@ -130,7 +131,7 @@ public class CarListFragment extends ListFragment {
 	@Override
 	public void onResume(){
 		super.onResume();
-		((ArrayAdapter<Car>)getListAdapter()).notifyDataSetChanged();
+		mAdapter.notifyDataSetChanged();
 	}
 
 	/**

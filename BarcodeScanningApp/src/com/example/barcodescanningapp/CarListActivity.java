@@ -2,7 +2,6 @@ package com.example.barcodescanningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 
 
@@ -21,7 +20,7 @@ import android.view.Menu;
  * This activity also implements the required {@link CarListFragment.Callbacks}
  * interface to listen for item selections.
  */
-public class CarListActivity extends FragmentActivity implements
+public class CarListActivity extends SingleFragmentActivity implements
 		CarListFragment.Callbacks {
 
 	/**
