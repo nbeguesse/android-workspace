@@ -20,7 +20,8 @@ public class MainActivityFragment extends Fragment implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		mUser = User.get(getActivity());
+		mUser = User.get();
+		File.loadUser(getActivity());
 
 
 	}

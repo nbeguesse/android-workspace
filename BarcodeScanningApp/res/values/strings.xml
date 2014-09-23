@@ -15,5 +15,6 @@
     <string name="logout">Logout</string>
     <string name="dummy">Placeholder</string>
     <string name="scan_another">Scan Another VIN</string>
+    <string name="print">Print Window Sticker</string>
 
 </resources>

@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.util.Log;
 
 
@@ -16,18 +15,19 @@ public class User {
 	private Integer mId;
 	private String mSingleAccessToken;
 	private ArrayList<Car> mCars;
-	
+
 	//Singleton private constructor!
-	private User(Context appContext){
+	private User(){
 		mCars = new ArrayList<Car>();
 	}
 	//Singleton public constructor!
-	public static User get(Context c){
+	public static User get(){
 		if(sUser == null){
-			sUser = new User(c.getApplicationContext());
+			sUser = new User();
 		}
 		return sUser;
 	}
+
 	
 	public void loadFromJson(String jsonString){
 		try {
@@ -60,6 +60,10 @@ public class User {
 			e.printStackTrace();
 		}
 	
+	}
+	
+	public void logOut(){
+		sUser = new User();
 	}
 	
 	public boolean isLoggedIn() {

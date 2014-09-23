@@ -259,7 +259,8 @@ public class LoginActivity extends Activity {
 
 			
 			if (response==LOGIN_SUCCESS) {
-				User.get(getApplicationContext()).loadFromJson(mLoginResponse);
+				User.get().loadFromJson(mLoginResponse);
+				File.saveUser(getApplicationContext());
 				//Successful Login - Kill the LoginActivity and continue
 				finish(); 
 			} else if (response == LOGIN_ERROR){

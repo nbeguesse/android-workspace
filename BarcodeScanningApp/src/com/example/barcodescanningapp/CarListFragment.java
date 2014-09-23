@@ -69,7 +69,7 @@ public class CarListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mUser = User.get(getActivity());
+		mUser = User.get();
 		mAdapter = new ArrayAdapter<Car>(getActivity(), android.R.layout.simple_list_item_1, mUser.getCars());
 		setListAdapter(mAdapter);
 	

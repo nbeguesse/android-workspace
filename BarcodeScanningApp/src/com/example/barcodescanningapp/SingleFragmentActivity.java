@@ -31,7 +31,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		User user = User.get(getApplicationContext());
+		User user = User.get();
 		//Hide login option if logged in
 		menu.findItem(R.id.login_button).setVisible(!user.isLoggedIn());
 		//Hide logout option if logged out
@@ -69,22 +69,30 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 	}
 	
 	public void buttonPress(int id){
+		
+		//scan with ZBAR LIBRARY
 		if(id==R.id.scan_button){
-			//scan with ZBAR LIBRARY
 			Intent intent = new Intent(getApplicationContext(), ZBarScannerActivity.class);
 			startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
+			
+		//Launch Login Activity
 		} else if (id==R.id.login_button) {
-			//Launch Login Activity
 			Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(intent);
+			
+		//Launch Car List Activity
 		} else if(id == R.id.my_cars_button){
-			//Launch Car List Activity
 			Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
-			startActivity(intent);			
+			startActivity(intent);	
+			
+		//Logout and return Home
 		} else if(id == R.id.logout_button){
-			//User user = User.get(getApplicationContext());
-			//user.logOut();
-			//NavUtils.navigateUpFromSameTask(MainActivity);
+			File.erase(getApplicationContext());
+			User.get().logOut();
+			Intent intent = new Intent(this, MainActivity.class);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
+	        startActivity(intent);
+	        finish();
 			
 		}
 	}
