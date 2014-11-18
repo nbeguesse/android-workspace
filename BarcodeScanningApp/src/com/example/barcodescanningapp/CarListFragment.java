@@ -116,7 +116,7 @@ public class CarListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(""+mUser.getCarByPosition(position).getId()); //send the car id
+		mCallbacks.onItemSelected(""+mUser.getCars().get(position).getId()); //send the car id
 	}
 
 	@Override

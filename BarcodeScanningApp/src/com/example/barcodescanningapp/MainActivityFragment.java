@@ -14,6 +14,7 @@ public class MainActivityFragment extends Fragment implements OnClickListener {
 	private Button mLoginButton;
 	private Button mMyCarsButton;
 	private Button mScanButton;
+	private Button mSelectButton;
 	private User mUser;
 
 	@Override
@@ -33,9 +34,11 @@ public class MainActivityFragment extends Fragment implements OnClickListener {
 		mLoginButton = (Button)v.findViewById(R.id.login_button);
 		mMyCarsButton = (Button)v.findViewById(R.id.my_cars_button);
 		mScanButton = (Button)v.findViewById(R.id.scan_button);
+		mSelectButton = (Button)v.findViewById(R.id.select_car_button);
 		mScanButton.setOnClickListener(this);
 		mLoginButton.setOnClickListener(this);
 		mMyCarsButton.setOnClickListener(this);
+		mSelectButton.setOnClickListener(this);
 
 		return v;
 	}

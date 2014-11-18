@@ -1,18 +1,19 @@
 package com.example.barcodescanningapp;
 
 
-import com.dm.zbar.android.scanner.ZBarConstants;
-import com.dm.zbar.android.scanner.ZBarScannerActivity;
-import com.example.barcodescanningapp.R;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.dm.zbar.android.scanner.ZBarConstants;
+import com.dm.zbar.android.scanner.ZBarScannerActivity;
 
 
 public abstract class SingleFragmentActivity extends FragmentActivity {
@@ -53,7 +54,13 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 			case ZBAR_SCANNER_REQUEST:
 			case ZBAR_QR_SCANNER_REQUEST:
 				if (resultCode == Activity.RESULT_OK) {
-					Toast.makeText(getApplicationContext(), "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
+					String result = data.getStringExtra(ZBarConstants.SCAN_RESULT);
+					Toast.makeText(getApplicationContext(), "Scan Result = " + result, Toast.LENGTH_SHORT).show();
+					
+					Intent intent = new Intent(getApplicationContext(), CarVinActivity.class);
+					intent.putExtra(CarVinActivity.VIN_TO_SEND, result);
+					startActivity(intent);	
+					
 				} else if(resultCode == Activity.RESULT_CANCELED && data != null) {
 					String error = data.getStringExtra(ZBarConstants.ERROR_INFO);
 					if(!TextUtils.isEmpty(error)) {
@@ -80,11 +87,15 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 			Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(intent);
 			
-		//Launch Car List Activity
+		//Launch Car List Activity (not on menu)
 		} else if(id == R.id.my_cars_button){
 			Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
 			startActivity(intent);	
 			
+		//Launch Type Vin Activity
+		} else if (id == R.id.type_vin_button){
+			Intent intent = new Intent(getApplicationContext(), CarVinActivity.class);
+			startActivity(intent);				
 		//Logout and return Home
 		} else if(id == R.id.logout_button){
 			File.erase(getApplicationContext());
@@ -93,12 +104,29 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 	        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
 	        startActivity(intent);
 	        finish();
-			
+		//Select a make/model/style button
+		} else if(id== R.id.select_car_button){
+			Intent intent = new Intent(getApplicationContext(), SelectActivity.class);
+			startActivity(intent);	
 		}
 	}
 	
 
 	
+	protected void defaultFragmentHolder(){
+		setContentView(R.layout.fragment_holder);
+		FragmentManager fm = getSupportFragmentManager();
+		Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+		if(fragment==null){
+			fragment = createFragment();
+			fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
+		}
+	}
+	
+	protected Fragment createFragment() {
+		return new MainActivityFragment();
+	}
+
 	
 
 }

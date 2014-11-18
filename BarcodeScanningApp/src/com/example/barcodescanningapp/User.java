@@ -1,7 +1,10 @@
 package com.example.barcodescanningapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,16 +45,7 @@ public class User {
 				for (int i=0; i < carArray.length(); i++){
 					JSONObject carObject = carArray.getJSONObject(i);
 					
-					// If a duplicate is found, prevent it from being added and
-			        // merge it into the existing model.
-					Car existing = getCar(carObject.getInt("id"));
-					if(existing != null){
-						existing.loadFromJson(carObject);
-					} else {
-						Car temp = new Car();
-						temp.loadFromJson(carObject);
-						mCars.add(temp);
-					}
+					loadCarFromJson(carObject);
 					
 				}
 			}
@@ -60,6 +54,25 @@ public class User {
 			e.printStackTrace();
 		}
 	
+	}
+	
+	public void loadCarFromJson(JSONObject carObject){
+		// If a duplicate is found, prevent it from being added and
+        // merge it into the existing model.
+		Log.d("USER.JAVA",carObject.toString());
+		Car existing = null;
+		try {
+			existing = getCar(carObject.getInt("id"));
+			if(existing != null){
+				existing.loadFromJson(carObject);
+			} else {
+				Car temp = new Car();
+				temp.loadFromJson(carObject);
+				mCars.add(temp);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void logOut(){
@@ -96,12 +109,17 @@ public class User {
 		return null;
 	}
 	
-	public Car getCarByPosition(Integer i){
-		return mCars.get(i);
-	}
+
 	public ArrayList<Car> getCars() {
 		return mCars;
 	}
-  
+
+	public List<NameValuePair> createNameValuePairs(int length) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(length+1);
+		if(this.isLoggedIn()){
+			nameValuePairs.add(new BasicNameValuePair("single_access_token", mSingleAccessToken));
+		}
+		return nameValuePairs;
+	}  
   
 }

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -23,97 +22,61 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-/**
- * Activity which displays a login screen to the user, offering registration as
- * well.
- */
-public class LoginActivity extends Activity {
-	public static final String TAG = "LoginActivityTag";
 
-	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
-	/**
-	 * Keep track of the login task to ensure we can cancel it if requested.
-	 */
-	private UserLoginTask mAuthTask = null;
-
-	// Values for email and password at the time of the login attempt.
-	private String mEmail;
-	private String mPassword;
+public class CarVinActivity extends Activity {
 	
-	//Server JSON Response will go here.
-	private String mLoginResponse;
-
-	// UI references.
-	private EditText mEmailView;
-	private EditText mPasswordView;
-	private View mLoginFormView;
-	private View mLoginStatusView;
-	private TextView mLoginStatusMessageView;
-	private TextView mLoginErrorMessageView;
+	private EditText mVinView;
+	private View mUploadFormView;
+	private View mUploadStatusView;
+	private TextView mUploadStatusMessageView;
+	private TextView mUploadErrorMessageView;
+	private JSONObject mCarObject = null;
+	private User mUser;
+	private String mScannedVin = null;
+	public static final String VIN_TO_SEND = "com.qrvin.barcodescanningapp.vin_to_send";
+	
+	/**
+	 * Keep track of the upload task to ensure we can cancel it if requested.
+	 */
+	private CarUploadTask mAuthTask = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_car_vin);
+		mUser = User.get();
+		mVinView = (EditText)findViewById(R.id.vin);
 
-		setContentView(R.layout.activity_login);
-
-		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
-
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
-
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-		mLoginErrorMessageView = (TextView)findViewById(R.id.login_error);
-		mLoginErrorMessageView.setText("");
-
-		findViewById(R.id.sign_in_button).setOnClickListener(
+		findViewById(R.id.vin_button).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						attemptLogin();
 					}
-				});
+				}
+		);
+		mUploadFormView = findViewById(R.id.upload_form);
+		mUploadStatusView = findViewById(R.id.upload_status);
+		mUploadStatusMessageView = (TextView) findViewById(R.id.upload_status_message);
+		mUploadErrorMessageView = (TextView)findViewById(R.id.upload_error);
+		mUploadErrorMessageView.setText("");
+		
+		mScannedVin = getIntent().getStringExtra(VIN_TO_SEND);
+		if(!TextUtils.isEmpty(mScannedVin)){
+			mVinView.setText(mScannedVin);
+			attemptLogin();
+		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
-
+	
 	/**
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
@@ -125,28 +88,25 @@ public class LoginActivity extends Activity {
 		}
 
 		// Reset errors.
-		mEmailView.setError(null);
-		mPasswordView.setError(null);
+		mVinView.setError(null);
 
 		// Store values at the time of the login attempt.
-		mEmail = mEmailView.getText().toString();
-		mPassword = mPasswordView.getText().toString();
+		String mVin = mVinView.getText().toString();
+
 
 		boolean cancel = false;
 		View focusView = null;
 
-		// Check for a blank password.
-		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
+		// Check for a blank vin number.
+		if (TextUtils.isEmpty(mVin)) {
+			mVinView.setError(getString(R.string.error_field_required));
+			focusView = mVinView;
 			cancel = true;
-		} 
-
-		// Check for a blank email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
+		} else if (mVin.length() != 17) {
+			mVinView.setError(getString(R.string.vin_must_be_17_chars));
+			focusView = mVinView;
 			cancel = true;
+			
 		}
 
 		if (cancel) {
@@ -156,13 +116,13 @@ public class LoginActivity extends Activity {
 		} else {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+			mUploadStatusMessageView.setText(R.string.upload_progress);
 			showProgress(true);
-			mAuthTask = new UserLoginTask();
+			mAuthTask = new CarUploadTask();
 			mAuthTask.execute((Void) null);
 		}
 	}
-
+	
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -175,32 +135,32 @@ public class LoginActivity extends Activity {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
 
-			mLoginStatusView.setVisibility(View.VISIBLE);
-			mLoginStatusView.animate().setDuration(shortAnimTime)
+			mUploadStatusView.setVisibility(View.VISIBLE);
+			mUploadStatusView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
+							mUploadStatusView.setVisibility(show ? View.VISIBLE
 									: View.GONE);
 						}
 					});
 
-			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
+			mUploadFormView.setVisibility(View.VISIBLE);
+			mUploadFormView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
+							mUploadFormView.setVisibility(show ? View.GONE
 									: View.VISIBLE);
 						}
 					});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
-			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+			mUploadStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			mUploadFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -208,45 +168,46 @@ public class LoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, String> {
+	public class CarUploadTask extends AsyncTask<Void, Void, String> {
 
-		private static final String LOGIN_SUCCESS = "Success"; 
-		private static final String LOGIN_ERROR = "Error"; // Causes "try again" message
+		private static final String UPLOAD_SUCCESS = "Success"; 
+		private static final String UPLOAD_ERROR = "Error"; // Causes "try again" message
 		
 		@Override
 		protected String doInBackground(Void... params) {
 
 			
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("https://qrvin.com/user_sessions/create.json"); //Note: using R.string.host doesn't work
+			//TODO Make String constant for hostname
+			HttpPost httppost = new HttpPost("http://qrvin.com/cars/vin.json");
 
 			try {
 				// Add your data
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-				nameValuePairs.add(new BasicNameValuePair("user_session[email]", mEmail));
-				nameValuePairs.add(new BasicNameValuePair("user_session[password]", mPassword));
+				List<NameValuePair> nameValuePairs = mUser.createNameValuePairs(1);
+				nameValuePairs.add(new BasicNameValuePair("car[vin]", mVinView.getText().toString()));
+				
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
 				// Execute HTTP Post Request
 				HttpResponse response = httpclient.execute(httppost);
 				// Convert the String Response to JSON
-				mLoginResponse = inputStreamToString(response.getEntity().getContent());
+				String uploadResponse = inputStreamToString(response.getEntity().getContent());
 
-				JSONObject jsonObject = new JSONObject(mLoginResponse);
+				JSONObject jsonObject = new JSONObject(uploadResponse);
 				if(jsonObject.has("errors")) {
 					//Return error message to the UI
 					JSONArray errorsObject = jsonObject.getJSONArray("errors");
 					return errorsObject.getString(0); 
 				} else {
-					return LOGIN_SUCCESS;
+					mCarObject = jsonObject.optJSONObject("car");
+					return UPLOAD_SUCCESS;
 				}
 
 			} catch (ClientProtocolException e) {
-				return LOGIN_ERROR;
+				return UPLOAD_ERROR;
 			} catch (IOException e) {
-				return LOGIN_ERROR;
+				return UPLOAD_ERROR;
 			} catch (JSONException e) {
-				return LOGIN_ERROR;
+				return UPLOAD_ERROR;
 			}
 
 			
@@ -258,20 +219,27 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 
 			
-			if (response==LOGIN_SUCCESS) {
-				User.get().loadFromJson(mLoginResponse);
-				File.saveUser(getApplicationContext());
-				//Successful Login - Kill the LoginActivity and continue
-				Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_SHORT).show();
+			if (response==UPLOAD_SUCCESS) {
+				//Load Car from Json
+				if(mCarObject != null) mUser.loadCarFromJson(mCarObject);
 				finish(); 
-			} else if (response == LOGIN_ERROR){
+				//Navigate to car list
+				Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
+				try {
+					//Go automatically to the new car id
+					intent.putExtra(CarListActivity.ARG_ITEM_ID, mCarObject.getInt("id"));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				startActivity(intent);
+			} else if (response == UPLOAD_ERROR){
 				
 				//Try again if any exceptions were thrown
-				mLoginErrorMessageView.setText(R.string.login_problem);
+				mUploadErrorMessageView.setText("There was a problem. Please try again later.");
 			} else {
 				
 				//Display whatever message we got from the server
-				mLoginErrorMessageView.setText(response);
+				mUploadErrorMessageView.setText(response);
 			}
 		}
 
@@ -297,4 +265,6 @@ public class LoginActivity extends Activity {
 		    return total.toString();
 		}
 	}
+	
+
 }

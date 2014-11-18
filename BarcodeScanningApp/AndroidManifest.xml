@@ -49,6 +49,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CarListActivity" />
         </activity>
+        <activity
+            android:name="com.example.barcodescanningapp.CarVinActivity"
+            android:label="@string/title_activity_car_vin" >
+        </activity>
+        <activity
+            android:name="com.example.barcodescanningapp.SelectActivity"
+            android:label="@string/title_activity_select"
+            android:parentActivityName="com.example.barcodescanningapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.barcodescanningapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

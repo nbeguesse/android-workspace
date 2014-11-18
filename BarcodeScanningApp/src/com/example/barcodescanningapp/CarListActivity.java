@@ -2,6 +2,7 @@ package com.example.barcodescanningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 
@@ -28,6 +29,7 @@ public class CarListActivity extends SingleFragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
+	public static final String ARG_ITEM_ID = "car_id";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class CarListActivity extends SingleFragmentActivity implements
 		}
 
 		// If exposing deep links into your app, handle intents here.
+		//String x = getIntent().getStringExtra(CarListActivity.ARG_ITEM_ID);
+		int x = getIntent().getIntExtra(CarListActivity.ARG_ITEM_ID, 0);
+		Log.d("CarListActivity", "String extra is... "+String.valueOf(x));
+		onItemSelected(String.valueOf(x));
 	}
 	
 	

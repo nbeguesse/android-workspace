@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">QRVin</string>
+    <string name="app_name">QRVin Native</string>
     <string name="action_settings">Settings</string>
     <string name="scan">Scan VIN</string>
     <string name="email_address">Email Address</string>
@@ -16,5 +16,15 @@
     <string name="dummy">Placeholder</string>
     <string name="scan_another">Scan Another VIN</string>
     <string name="print">Print Window Sticker</string>
+    <string name="title_activity_car_vin">CarVinActivity</string>
+    <string name="submit">submit</string>
+    <string name="prompt_vin">VIN Number</string>
+    <string name="upload_progress">Sending Vin&#8230;</string>
+    <string name="vin_must_be_17_chars">The VIN must be 17 letters.</string>
+    <string name="type_vin">Type VIN</string>
+    <string name="title_activity_select">SelectActivity</string>
+    <string name="select_a_car">Select A Year</string>
+    <string name="connection_problem">There was a problem contacting the server. Please try again later.</string>
+    <string name="host">https://qrvin.com</string>
 
 </resources>
