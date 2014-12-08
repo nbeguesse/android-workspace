@@ -23,7 +23,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -145,7 +144,7 @@ public class SelectActivity extends Activity {
 
 				if (mStyleId != null) {
 
-					String url = R.string.host + "/cars/vin?car[year]=" + mYear
+					String url = MainActivity.HOST_HTTP + "/cars/vin?car[year]=" + mYear
 							+ "&car[make]=" + mMake + "&car[model]=" + mModel
 							+ "&car[chrome_style_id]=" + mStyleId;
 					HttpGet httpget = new HttpGet(url);
@@ -162,7 +161,7 @@ public class SelectActivity extends Activity {
 					}
 					return GOT_CAR;
 				} else {
-					String url = R.string.host + "/cars/chrome_select?year="
+					String url = MainActivity.HOST_HTTP + "/cars/chrome_select?year="
 							+ mYear;
 					if (mMakeId != null)
 						url += "&make_id=" + mMakeId;
@@ -249,12 +248,12 @@ public class SelectActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.select, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.select, menu);
+//		return true;
+//	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

@@ -25,6 +25,12 @@
     <string name="title_activity_select">SelectActivity</string>
     <string name="select_a_car">Select A Year</string>
     <string name="connection_problem">There was a problem contacting the server. Please try again later.</string>
-    <string name="host">https://qrvin.com</string>
+    <string name="label_engine">Engine</string>
+    <string name="label_transmission">Transmission</string>
+    <string name="label_msrp">MSRP</string>
+    <string name="label_was_new">Was New</string>
+    <string name="label_installed_options">See Installed Options</string>
+    <string name="label_edit_options">Edit Installed Options</string>
+    <string name="title_activity_edit_options">Edit Installed Options</string>
 
 </resources>

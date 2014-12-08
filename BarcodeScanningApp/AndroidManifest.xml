@@ -54,12 +54,20 @@
             android:label="@string/title_activity_car_vin" >
         </activity>
         <activity
+            android:name="com.example.barcodescanningapp.PrintDialogActivity"
+            android:label="@string/print" >
+        </activity>
+        <activity
             android:name="com.example.barcodescanningapp.SelectActivity"
             android:label="@string/title_activity_select"
             android:parentActivityName="com.example.barcodescanningapp.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.barcodescanningapp.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.barcodescanningapp.EditOptionsActivity"
+            android:label="@string/title_activity_edit_options" >
         </activity>
     </application>
 

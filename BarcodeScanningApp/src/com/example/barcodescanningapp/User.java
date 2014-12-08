@@ -59,7 +59,7 @@ public class User {
 	public void loadCarFromJson(JSONObject carObject){
 		// If a duplicate is found, prevent it from being added and
         // merge it into the existing model.
-		Log.d("USER.JAVA",carObject.toString());
+		//Log.d("USER.JAVA",carObject.toString());
 		Car existing = null;
 		try {
 			existing = getCar(carObject.getInt("id"));

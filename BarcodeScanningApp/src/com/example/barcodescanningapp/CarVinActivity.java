@@ -60,7 +60,7 @@ public class CarVinActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						attemptLogin();
+						attemptUpload();
 					}
 				}
 		);
@@ -73,16 +73,12 @@ public class CarVinActivity extends Activity {
 		mScannedVin = getIntent().getStringExtra(VIN_TO_SEND);
 		if(!TextUtils.isEmpty(mScannedVin)){
 			mVinView.setText(mScannedVin);
-			attemptLogin();
+			attemptUpload();
 		}
 	}
 	
-	/**
-	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
-	 * errors are presented and no actual login attempt is made.
-	 */
-	public void attemptLogin() {
+
+	public void attemptUpload() {
 		if (mAuthTask != null) {
 			return;
 		}
@@ -90,7 +86,7 @@ public class CarVinActivity extends Activity {
 		// Reset errors.
 		mVinView.setError(null);
 
-		// Store values at the time of the login attempt.
+		// Store values at the time of the upload attempt.
 		String mVin = mVinView.getText().toString();
 
 
@@ -110,12 +106,12 @@ public class CarVinActivity extends Activity {
 		}
 
 		if (cancel) {
-			// There was an error; don't attempt login and focus the first
+			// There was an error; don't attempt upload and focus the first
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
 			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
+			// perform the upload attempt.
 			mUploadStatusMessageView.setText(R.string.upload_progress);
 			showProgress(true);
 			mAuthTask = new CarUploadTask();
@@ -124,7 +120,7 @@ public class CarVinActivity extends Activity {
 	}
 	
 	/**
-	 * Shows the progress UI and hides the login form.
+	 * Shows the progress UI and hides the previous form
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
@@ -165,8 +161,7 @@ public class CarVinActivity extends Activity {
 	}
 
 	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
+	 * Represents an asynchronous upload task
 	 */
 	public class CarUploadTask extends AsyncTask<Void, Void, String> {
 
@@ -178,8 +173,7 @@ public class CarVinActivity extends Activity {
 
 			
 			HttpClient httpclient = new DefaultHttpClient();
-			//TODO Make String constant for hostname
-			HttpPost httppost = new HttpPost("http://qrvin.com/cars/vin.json");
+			HttpPost httppost = new HttpPost(MainActivity.HOST_HTTP+"/cars/vin.json");
 
 			try {
 				// Add your data

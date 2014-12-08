@@ -218,7 +218,7 @@ public class LoginActivity extends Activity {
 
 			
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("https://qrvin.com/user_sessions/create.json"); //Note: using R.string.host doesn't work
+			HttpPost httppost = new HttpPost(MainActivity.HOST_HTTPS+"/user_sessions/create.json"); //Note: using R.string.host doesn't work
 
 			try {
 				// Add your data

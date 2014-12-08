@@ -13,22 +13,22 @@ import android.text.TextUtils;
 public class Car {
 	private int mId;
 	private String mVin;
-	public String mMake;
-	public String mModel;
-	public String mStyle;
-	public int mYear;
-	public String mComments;
-	public JSONArray mStandardOptions;
-	public JSONArray mOptions;
-	public String mEngine;
-	public String mTransmission;
-	public String mDrivetrain;
-	public int mMsrpPrice;
-	public String mExteriorColor;
-	public String mInteriorColor;
-	public int mTotalMsrp;
-	public int mMiles;
-	public String mPrimaryImage;
+	private String mMake;
+	private String mModel;
+	private String mStyle;
+	private int mYear;
+	private String mComments;
+	private JSONArray mStandardOptions;
+	private JSONArray mOptions;
+	private String mEngine;
+	private String mTransmission;
+	private String mDrivetrain;
+	private int mMsrpPrice;
+	private String mExteriorColor;
+	private String mInteriorColor;
+	private int mTotalMsrp;
+	private int mMiles;
+	private String mPrimaryImage;
 	
 	public void loadFromJson(JSONObject o){
 
@@ -42,7 +42,7 @@ public class Car {
 		mStandardOptions = o.optJSONArray("standard_options");
 		mOptions = o.optJSONArray("options");
 		mEngine = o.optString("engine");
-		mTransmission = o.optString("Transmission");
+		mTransmission = o.optString("transmission");
 		mDrivetrain = o.optString("drivetrain");
 		mMsrpPrice = o.optInt("msrp_price");
 		mExteriorColor = o.optString("exterior_color");
@@ -103,6 +103,103 @@ public class Car {
 	public void setVin(String vin) {
 		this.mVin = vin;
 	}
+	public JSONArray getInstalledOptions() throws JSONException{
+		JSONArray installed = new JSONArray();
+		for (int i=0; i < mOptions.length(); i++){
+			JSONObject option = mOptions.getJSONObject(i);
+			if(option.has("installed")){
+				if(String.valueOf(option.get("installed")) == "true"){
+					installed.put(option);
+				}
+			}
+		}
 
+		installed.put(destinationCharge());
+		return installed;
+	}
+	
+	
+	public int getWasNew(){
+		int out = 0;
+		if(mMsrpPrice > 0){
+			out = mMsrpPrice;
+			JSONArray options;
+			try {
+				options = getInstalledOptions();
+				for (int i=0; i < options.length(); i++){
+					JSONObject option = options.getJSONObject(i);
+					if(option.has("msrp")){
+						JSONObject temp = option.getJSONObject("msrp");
+						out += Math.round( Float.parseFloat(temp.getString("highValue")));
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return out;
+	}
+
+
+
+	public JSONArray getOptions() {
+		return mOptions;
+	}
+
+	public String getEngine() {
+		return mEngine;
+	}
+
+	public String getTransmission() {
+		return mTransmission;
+	}
+
+	public int getMsrpPrice() {
+		return mMsrpPrice;
+	}
+
+	public String getExteriorColor() {
+		return mExteriorColor;
+	}
+
+	public String getInteriorColor() {
+		return mInteriorColor;
+	}
+
+	public void setInstalledOption(int optionId, boolean installed){
+		JSONArray temp = new JSONArray();
+		for(int i=0; i<mOptions.length(); i++){
+			try {
+				JSONObject original = mOptions.getJSONObject(i);
+				JSONObject copy = new JSONObject(original.toString());
+				
+				if(i == optionId){
+					copy.put("installed", installed);
+				}
+				temp.put(copy);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+		
+		}
+		mOptions = temp;
+	}
+	private JSONObject destinationCharge() throws JSONException{
+		JSONObject destinationCharge = new JSONObject();
+		destinationCharge.put("name", "OTHER");
+		JSONObject dcInvoice = new JSONObject();
+		dcInvoice.put("highValue", 795);
+		dcInvoice.put("lowValue", 795);
+		JSONObject dcMsrp = new JSONObject();
+		dcMsrp.put("highValue", 795);
+		dcMsrp.put("lowValue", 795);
+		destinationCharge.put("msrp", dcMsrp);
+		destinationCharge.put("code", "");
+		destinationCharge.put("installed", true);
+		destinationCharge.put("value", "DESTINATION CHARGE");
+		return destinationCharge;
+	}
 
 }
