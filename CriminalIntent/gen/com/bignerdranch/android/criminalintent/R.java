@@ -25,22 +25,29 @@ public final class R {
     }
     public static final class id {
         public static final int button1=0x7f080001;
-        public static final int crime_date=0x7f080006;
+        public static final int crime_camera_progressContainer=0x7f08000c;
+        public static final int crime_camera_surfaceView=0x7f08000a;
+        public static final int crime_camera_takePictureButton=0x7f08000b;
+        public static final int crime_date=0x7f080008;
+        public static final int crime_imageButton=0x7f080006;
+        public static final int crime_imageView=0x7f080005;
         public static final int crime_list_item_dateTextView=0x7f080004;
         public static final int crime_list_item_solvedCheckBox=0x7f080002;
         public static final int crime_list_item_titleTextView=0x7f080003;
-        public static final int crime_solved=0x7f080007;
-        public static final int crime_title=0x7f080005;
-        public static final int fragmentContainer=0x7f080008;
-        public static final int menu_item_new_crime=0x7f080009;
-        public static final int menu_item_show_subtitle=0x7f08000a;
+        public static final int crime_solved=0x7f080009;
+        public static final int crime_title=0x7f080007;
+        public static final int fragmentContainer=0x7f08000e;
+        public static final int menu_item_new_crime=0x7f08000f;
+        public static final int menu_item_show_subtitle=0x7f080010;
+        public static final int progressBar1=0x7f08000d;
         public static final int textView1=0x7f080000;
     }
     public static final class layout {
         public static final int crime_list=0x7f030000;
         public static final int crime_list_fragment=0x7f030001;
         public static final int edit_crime_fragment=0x7f030002;
-        public static final int fragment_holder=0x7f030003;
+        public static final int fragment_crime_camera=0x7f030003;
+        public static final int fragment_holder=0x7f030004;
     }
     public static final class menu {
         public static final int crime_list_fragment=0x7f070000;
@@ -59,6 +66,7 @@ public final class R {
         public static final int no_crimes_found=0x7f05000c;
         public static final int show_subtitle=0x7f050008;
         public static final int subtitle=0x7f05000a;
+        public static final int take=0x7f05000d;
     }
     public static final class style {
         /** 
