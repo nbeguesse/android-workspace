@@ -3,6 +3,7 @@ package com.bignerdranch.android.criminalintent;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Display;
 import android.widget.ImageView;
@@ -51,4 +52,16 @@ public class PictureUtils {
 		b.getBitmap().recycle();
 		imageView.setImageDrawable(null);
 	}
+	
+    public static BitmapDrawable getPortraitDrawable(ImageView iView, BitmapDrawable origImage) {
+        Matrix m = new Matrix();
+
+        m.postRotate(90);
+        Bitmap br = Bitmap.createBitmap(origImage.getBitmap(), 0, 0,
+              origImage.getIntrinsicWidth(), origImage.getIntrinsicHeight(),
+              m, true);
+        origImage = new BitmapDrawable(iView.getResources(), br);
+
+        return origImage;
+     }
 }

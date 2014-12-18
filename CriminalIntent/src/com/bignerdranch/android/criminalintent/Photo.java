@@ -1,29 +1,42 @@
-package com.bignerdranch.android.criminalintent;
+    package com.bignerdranch.android.criminalintent;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+    import org.json.JSONException;
+    import org.json.JSONObject;
 
-public class Photo {
-	private static final String JSON_FILENAME = "filename";
-	private String mFilename;
-	
-	/** Create a Photo representing an existing file on disk */
-	public Photo(String filename){
-		mFilename = filename;
-	}
-	
-	public Photo(JSONObject json) throws JSONException{
-		mFilename = json.getString(JSON_FILENAME);
-	}
-	
-	public JSONObject toJSON() throws JSONException{
-		JSONObject json = new JSONObject();
-		json.put(JSON_FILENAME, mFilename);
-		return json;
-	}
-	
-	public String getFilename(){
-		return mFilename;
-	}
+    public class Photo {
+       private static final String JSON_FILENAME = "filename";
+       private static final String JSON_ORIENTATION = "orientation";
+       
+       private final String mFilename;
+       private final int mOrientation;
+       
+       /**
+        * Create a Photo representing existing file on disk
+        */
+       public Photo(String filename, int orientation) {
+          mFilename = filename;
+            mOrientation = orientation;
+       }
+       
+       public Photo(JSONObject json) throws JSONException {
+          mFilename = json.getString(JSON_FILENAME);
+          mOrientation = json.getInt(JSON_ORIENTATION);
+       }
+       
+       public JSONObject toJSON() throws JSONException {
+          JSONObject json = new JSONObject();
+          json.put(JSON_FILENAME, mFilename);
+          json.put(JSON_ORIENTATION, mOrientation);
+          
+          return json;
+       }
+       
+       public String getFilename() {
+          return mFilename;
+       }
+       
+       public int getOrientation() {
+          return mOrientation;
+       }
 
-}
+    }

@@ -30,6 +30,48 @@ public class CrimeCameraFragment extends Fragment {
 	private View mProgressContainer;
 	public static final String EXTRA_PHOTO_FILENAME = "com.bignerdranch.android.criminalIntent.photoFilename";
 	
+    public static final String EXTRA_PHOTO_ORIENTATION =
+            "com.bignerdranch.android.criminalintent.photo_orientation";
+     
+     private final Camera.PictureCallback mJpegCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+           // Build filename
+           String filename = UUID.randomUUID().toString() + "jpg";
+           // Save file to disk
+           FileOutputStream os = null;
+           boolean success = true;
+           try {
+              os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
+              os.write(data);
+           } catch (Exception e) {
+              Log.e(TAG, "Error writing to file " + filename, e);
+              success = false;
+           } finally {
+              try {
+                 if (os != null)
+                    os.close();
+              } catch (Exception e) {
+                 Log.e(TAG, "Error closing file " + filename, e);
+                 success = false;
+              }
+           }
+           // Set photo filename on result intent
+           if (success) {
+              Intent i = new Intent();
+              i.putExtra(EXTRA_PHOTO_FILENAME, filename);
+                CrimeCameraActivity activity = (CrimeCameraActivity)getActivity();
+                int orientation = activity.getOrientation();
+        
+              i.putExtra(EXTRA_PHOTO_ORIENTATION, orientation);
+              getActivity().setResult(Activity.RESULT_OK, i);
+           } else {
+              getActivity().setResult(Activity.RESULT_CANCELED);
+           }
+           getActivity().finish();
+        }
+     };
+	
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
 		
 		@Override
@@ -40,43 +82,43 @@ public class CrimeCameraFragment extends Fragment {
 		}
 	};
 	
-	private Camera.PictureCallback mJpegCallback = new Camera.PictureCallback() {
-		
-		@Override
-		public void onPictureTaken(byte[] data, Camera camera) {
-			//Create a filename
-			String filename = UUID.randomUUID().toString()+".jpg";
-			//Save the jpeg data to disk
-			FileOutputStream os = null;
-			boolean success = true;
-			try{
-				os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
-				os.write(data);
-			} catch (Exception e) {
-				Log.e(TAG, "Error writing to file "+filename, e);
-				success = false;
-			} finally {
-				try {
-					if(os != null) os.close();
-				} catch (Exception e){
-					Log.e(TAG, "Error closing file "+filename, e);
-					success = false;
-				}
-			}
-			if(success){
-				//set the photo filename on the result intent
-				if(success){
-					Intent i = new Intent();
-					i.putExtra(EXTRA_PHOTO_FILENAME, filename);
-					getActivity().setResult(Activity.RESULT_OK, i);
-				} else {
-					getActivity().setResult(Activity.RESULT_CANCELED);
-				}
-			}
-			getActivity().finish();
-			
-		}
-	};
+//	private Camera.PictureCallback mJpegCallback = new Camera.PictureCallback() {
+//		
+//		@Override
+//		public void onPictureTaken(byte[] data, Camera camera) {
+//			//Create a filename
+//			String filename = UUID.randomUUID().toString()+".jpg";
+//			//Save the jpeg data to disk
+//			FileOutputStream os = null;
+//			boolean success = true;
+//			try{
+//				os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
+//				os.write(data);
+//			} catch (Exception e) {
+//				Log.e(TAG, "Error writing to file "+filename, e);
+//				success = false;
+//			} finally {
+//				try {
+//					if(os != null) os.close();
+//				} catch (Exception e){
+//					Log.e(TAG, "Error closing file "+filename, e);
+//					success = false;
+//				}
+//			}
+//			if(success){
+//				//set the photo filename on the result intent
+//				if(success){
+//					Intent i = new Intent();
+//					i.putExtra(EXTRA_PHOTO_FILENAME, filename);
+//					getActivity().setResult(Activity.RESULT_OK, i);
+//				} else {
+//					getActivity().setResult(Activity.RESULT_CANCELED);
+//				}
+//			}
+//			getActivity().finish();
+//			
+//		}
+//	};
 	
 	@Override
 	@SuppressWarnings("deprecation")

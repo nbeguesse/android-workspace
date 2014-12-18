@@ -1,6 +1,7 @@
 //Edit Crime
 package com.bignerdranch.android.criminalintent;
 
+import java.io.File;
 import java.util.UUID;
 
 import android.annotation.TargetApi;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,19 +101,22 @@ public class EditCrimeFragment extends Fragment {
 				
 			}
 		});
-		mPhotoView = (ImageView)v.findViewById(R.id.crime_imageView);
-		mPhotoView.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Photo p = mCrime.getPhoto();
-				if(p==null) return;
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				String path = getActivity().getFileStreamPath(p.getFilename()).getAbsolutePath();
-				ImageFragment.newInstance(path).show(fm, DIALOG_IMAGE);
-				
-			}
-		});
+
+        mPhotoView = (ImageView)v.findViewById(R.id.crime_imageView);
+        registerForContextMenu(mPhotoView);
+        mPhotoView.setOnClickListener(new View.OnClickListener() {         
+         @Override
+         public void onClick(View v) {
+            Photo p = mCrime.getPhoto();
+            if (p == null)
+               return;
+            
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            String path = getActivity().getFileStreamPath(p.getFilename()).getAbsolutePath();
+            int orientation = p.getOrientation();
+            ImageFragment.newInstance(path, orientation).show(fm, DIALOG_IMAGE);
+         }
+      });
 		//If camera is not available, disable camera functionality
 		PackageManager pm = getActivity().getPackageManager();
 		boolean hasACamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
@@ -158,25 +163,63 @@ public class EditCrimeFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
 		if(resultCode != Activity.RESULT_OK) return;
-		if(requestCode == REQUEST_PHOTO){
-			//Create a new Photo object and attach it to the crime
-			String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
-			if(filename != null){
-				Photo p = new Photo(filename);
-				mCrime.setPhoto(p);
-				showPhoto();
-			}
-		}
+		if (requestCode == REQUEST_PHOTO ) {
+	         String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
+	         int i = data.getIntExtra(CrimeCameraFragment.EXTRA_PHOTO_ORIENTATION, 0);
+	         if (filename != null) {
+	        	 
+	        	 //Check for old photo and replace it
+	        	Photo old = mCrime.getPhoto();
+	        	if(old != null){
+	        		String path = getActivity().getFileStreamPath(old.getFilename()).getAbsolutePath();
+                    File f = new File(path);
+                    f.delete();
+	        	}
+	        	//Save the new photo
+	            Photo p = new Photo(filename, i);
+	            mCrime.setPhoto(p);
+	            showPhoto();
+	         }
+	      }
 	}
 	
-	private void showPhoto(){
-		//(Re)set the image button's image based on our photo
-		Photo p = mCrime.getPhoto();
-		BitmapDrawable b = null;
-		if(p != null){
-			String path = getActivity().getFileStreamPath(p.getFilename()).getAbsolutePath();
-			b = PictureUtils.getScaledDrawable(getActivity(), path);
-		}
-		mPhotoView.setImageDrawable(b);
-	}
+    private void showPhoto() {
+        // (Re)set the image button's image based on our photo
+        Photo p = mCrime.getPhoto();
+        BitmapDrawable b = null;
+        if (p != null) {
+           String path = getActivity().getFileStreamPath(p.getFilename())
+                 .getAbsolutePath();
+           b = PictureUtils.getScaledDrawable(getActivity(), path);
+
+           int orientation = p.getOrientation();
+           if (orientation == CrimeCameraActivity.ORIENTATION_PORTRAIT_INVERTED ||
+              orientation == CrimeCameraActivity.ORIENTATION_PORTRAIT_NORMAL) {
+              b = PictureUtils.getPortraitDrawable(mPhotoView, b);
+           }
+        }
+        mPhotoView.setImageDrawable(b);
+     }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        getActivity().getMenuInflater().inflate(R.menu.crime_photo_delete, menu);
+    }
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.menu_delete_photo:
+                if (mCrime.getPhoto() != null){
+                    String path = getActivity().getFileStreamPath(mCrime.getPhoto().getFilename()).getAbsolutePath();
+                    File f = new File(path);
+                    f.delete();
+                    mCrime.setPhoto(null);
+                    mPhotoView.setImageDrawable(null);
+                }
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
 }

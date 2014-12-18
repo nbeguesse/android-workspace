@@ -37,6 +37,7 @@ public final class R {
         public static final int crime_solved=0x7f080009;
         public static final int crime_title=0x7f080007;
         public static final int fragmentContainer=0x7f08000e;
+        public static final int menu_delete_photo=0x7f080011;
         public static final int menu_item_new_crime=0x7f08000f;
         public static final int menu_item_show_subtitle=0x7f080010;
         public static final int progressBar1=0x7f08000d;
@@ -51,6 +52,7 @@ public final class R {
     }
     public static final class menu {
         public static final int crime_list_fragment=0x7f070000;
+        public static final int crime_photo_delete=0x7f070001;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -61,6 +63,7 @@ public final class R {
         public static final int crime_title_label=0x7f050003;
         public static final int crimes_title=0x7f050006;
         public static final int delete_crime=0x7f05000b;
+        public static final int delete_photo=0x7f05000e;
         public static final int hide_subtitle=0x7f050009;
         public static final int new_crime=0x7f050007;
         public static final int no_crimes_found=0x7f05000c;
