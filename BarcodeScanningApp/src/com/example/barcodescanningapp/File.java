@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +20,10 @@ import android.content.Context;
 
 public class File {
 	private static Context mContext;
-	public static final String mFilename = "qrvin.json";
+	
+	public static String getFilename(){
+		return "qrvin.json"+(new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(new Date()));
+	}
 
 	public static void saveUser(Context context){
 		try {
@@ -36,7 +42,7 @@ public class File {
 			//Write the file to disk
 			Writer writer = null;
 			try {
-				OutputStream out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+				OutputStream out = mContext.openFileOutput(getFilename(), Context.MODE_PRIVATE);
 				writer = new OutputStreamWriter(out);
 				writer.write(top.toString());
 			} finally {
@@ -58,7 +64,7 @@ public class File {
 		try {
 			try{
 				//Open and read the file into a StringBuilder
-				InputStream in = mContext.openFileInput(mFilename);
+				InputStream in = mContext.openFileInput(getFilename());
 				reader = new BufferedReader(new InputStreamReader(in));
 				StringBuilder jsonString = new StringBuilder();
 				String line = null;
@@ -77,7 +83,7 @@ public class File {
 	}
 
 	public static void erase(Context context){
-		context.deleteFile(mFilename);
+		context.deleteFile(getFilename());
 	}
 
 }

@@ -14,7 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/print" />
+            android:padding="10dp"
+        	android:layout_margin="5dp"
+            android:text="@string/action_window_sticker" />
 
         <TextView
             android:id="@+id/car_detail"
@@ -109,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:clickable="true"
-            android:text="@string/label_installed_options"
+            android:text="@string/action_see_installed_options"
             android:textStyle="bold" />
 
         <!-- content to hide/show -->
@@ -122,18 +124,14 @@
             android:layout_marginBottom="40dp"
             android:orientation="vertical" >
 
-
         </LinearLayout>
-        
-        <Button
-            android:id="@+id/edit_options_button"
+		<LinearLayout
+            android:id="@+id/installed_options_checklist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:clickable="true"
-            android:text="@string/label_edit_options"
-            android:textStyle="bold" />
+            android:orientation="vertical" >
+        </LinearLayout>
         
-    </LinearLayout>
+    	</LinearLayout>
 
 </ScrollView>

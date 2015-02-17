@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.dm.zbar.android.scanner.ZBarConstants;
@@ -37,8 +38,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 		menu.findItem(R.id.login_button).setVisible(!user.isLoggedIn());
 		//Hide logout option if logged out
 		menu.findItem(R.id.logout_button).setVisible(user.isLoggedIn());
-		//Set custom title for VIN Scanner
-	    menu.findItem(R.id.scan_button).setTitle(user.hasCars() ? R.string.scan_another : R.string.scan);
+
 	    return true;
 	}
 	
@@ -108,6 +108,19 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 		} else if(id== R.id.select_car_button){
 			Intent intent = new Intent(getApplicationContext(), SelectActivity.class);
 			startActivity(intent);	
+		//Clicked Upload to DMS button
+		} else if(id == R.id.dms_button){
+			Toast.makeText(getApplicationContext(), "DMS Integration coming soon....", Toast.LENGTH_SHORT).show();	
+		//Set Brightness Up
+		} else if (id == R.id.brightness_up){
+			WindowManager.LayoutParams lp = getWindow().getAttributes();
+			lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
+			getWindow().setAttributes(lp);
+		//Set Brightness Down
+		} else if (id == R.id.brightness_down){
+			WindowManager.LayoutParams lp = getWindow().getAttributes();
+			lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
+			getWindow().setAttributes(lp);			
 		}
 	}
 	

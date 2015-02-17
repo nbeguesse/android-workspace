@@ -222,9 +222,15 @@ public class LoginActivity extends Activity {
 
 			try {
 				// Add your data
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				User user = User.get();
+				ArrayList<Car> cars = user.getCars();
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2+cars.size());
 				nameValuePairs.add(new BasicNameValuePair("user_session[email]", mEmail));
 				nameValuePairs.add(new BasicNameValuePair("user_session[password]", mPassword));
+				for (Car c : cars){
+					nameValuePairs.add(new BasicNameValuePair("user_session[cars]", c.getId()+""));
+				}
+
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 				// Execute HTTP Post Request
